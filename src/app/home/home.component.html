@@ -1,0 +1,108 @@
+<p>home works!</p>
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+
+        <form #f="ngForm"  (ngSubmit)="onSubmit(f)" (keydown.enter)="$event.preventDefault()">
+            <div class="form-group">
+                <h3>CUSTOMER DETAILS</h3><hr>
+            </div>
+            <div class="form-group">
+                <label for="customer_id">Customer ID:</label>
+                <input type="text" class="form-control" ngModel
+                name="customer_id"  id="customer_id" (keyup.enter)="customerDetails($event,f)">
+                <p *ngIf="customerNotFound">User not found</p>
+              </div>  
+            <div class="form-group">
+              <label for="customer_name">Customer Name:</label>
+              <input type="text" class="form-control" ngModel
+              name="customer_name" id="customer_name" readonly>
+            </div>
+            <div class="form-group"> 
+              <label for="custbal">Account Balance:</label>
+              <input type="number" class="form-control" ngModel
+              name="account_balance" id="custbal" readonly>
+            </div>
+            <div class="form-group"> 
+              <label for="overdraft">Overdraft:</label>
+              <input type="text" class="form-control" ngModel
+              name="overdraft" id="overdraft" readonly>
+            </div>
+
+            <div *ngIf="overdraftcheck" style="margin-left:220px;"  class="container">
+              <p *ngIf="overdraft"> overdraft  available</p>
+              <p *ngIf="!overdraft"> overdraft not available</p>
+             </div>
+
+            <div class="form-group">
+              <h3>RECIPIENT DETAILS</h3><hr>
+          </div>
+          <div class="form-group"> 
+            <label for="receiver_name">Name:</label>
+            <input type="text" class="form-control" ngModel
+            name="receiver_name" id="receiver_name">
+            </div>
+          
+            <div class="form-group"> 
+              <label for="receiver_id">Bank ID:</label>
+              <input type="text" class="form-control" ngModel
+              name="receiver_id" id="receiver_id">
+              <p *ngIf="bicNotFound">Bic not found</p>
+              </div>
+              <div class="form-group">
+                <label for="receiver_bic">Bank BIC Code:</label>
+                <input type="text" class="form-control" ngModel
+                name="receiver_bic"   id="receiver_bic" (keyup.enter)="bankDetails($event,f)">
+              </div>  
+              <div class="form-group"> 
+                <label for="bank_name">Bank Name:</label>
+                <input type="text" class="form-control" ngModel
+                name="bank_name" id="bank_name" readonly>
+              </div>
+  
+            
+            <div class="form-group">
+              <h3>TRANSACTION DETAILS</h3><hr>
+          </div>
+          <div class="form-group">
+            <label  for="transaction_type">Transaction Type</label>
+            <select class="form-control" name="language"   id="transaction_type" ngModel
+            name="transaction_type">
+            <option value="" default>Select transfertype</option>
+                <option value="B">Bank to Bank</option>
+                <option value="C">Customer to Customer</option>
+            </select>
+        </div>
+        <div class="form-group">
+          <label  for="message_code" >Message Code</label>
+          <select class="form-control" name="message_code"   id="message_code" ngModel
+          name="message_code">
+          <option value="" default>Select messagecode</option>
+              <option *ngFor="let msg of messages"  value="{{msg}}">{{msg}}</option>
+          </select>
+        </div>
+        <div class="form-group ">
+          <label for="transaction_amount">Amount</label>
+            <input type="number" class="form-control" id="transaction_amount" ngModel
+            name="transaction_amount"
+            (keyup.enter)="calculateFees($event,f)">
+        </div>
+          <div class="form-group">
+            <label for="transfer_fees">Transfer fees</label>
+              <input type="text" class="form-control" readonly id="transfer_fees"
+              [(ngModel)]="fees"
+              name="transfer_fees"
+              value="">
+          </div>
+          <br>
+          <br>
+          <hr>
+            <button type="submit" class="btn btn-primary" [disabled]="!totalbalanceflag">Submit</button>
+            
+          </form>
+          
+
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+
